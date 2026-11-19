@@ -69,8 +69,15 @@
 #two-gaps .hb-line { width: 1px; background: var(--hb-line); flex: none; transform-origin: top center; }
 #two-gaps .hb-line--live { position: relative; }
 #two-gaps .hb-line--live::after {
-  content: ""; position: absolute; left: 50%; top: 52%; width: 8px; height: 8px; margin: -4px 0 0 -4px;
+  content: ""; position: absolute; left: 50%; top: 0; width: 8px; height: 8px; margin: -4px 0 0 -4px;
   border-radius: 50%; background: var(--hb-teal);
+  animation: hb-drip 2.6s cubic-bezier(.45, 0, .55, 1) infinite;   /* the dot glides down the line, again and again */
+}
+@keyframes hb-drip {
+  0%   { top: 10%; opacity: 0; }
+  15%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { top: 92%; opacity: 0; }
 }
 #two-gaps .hb-diamond {
   width: 30px; height: 30px; margin-top: 6px; display: grid; place-items: center;
@@ -145,6 +152,7 @@
 #two-gaps.is-armed.is-run .hb-diamond.hb-step { transform: rotate(45deg); }
 
 @media (prefers-reduced-motion: reduce) {
+  #two-gaps .hb-line--live::after { animation: none; top: 52%; }
   #two-gaps .hb-step { opacity: 1 !important; transform: none !important; transition: none !important; }
   #two-gaps .hb-diamond.hb-step { transform: rotate(45deg) !important; }
 }
