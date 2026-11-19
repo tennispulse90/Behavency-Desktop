@@ -30,7 +30,7 @@ export default function App() {
     <>
       <Navbar />
       <HeroCarbon />
-      {/* <ClientLogos />  -- turned on once the logo images are in public/logos */}
+      <ClientLogos />
       <SituationSection />
       <PlatformSection />
       <StageIdentify />
