@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './components/Navbar'
 import HeroCarbon from './components/HeroCarbon'
+import ClientLogos from './components/ClientLogos'
 import SituationSection from './components/SituationSection'
 import PlatformSection from './components/PlatformSection'
 import StageIdentify from './components/StageIdentify'
@@ -21,12 +22,15 @@ import ForWho from './components/ForWho'
 import CtaSection from './components/CtaSection'
 import Footer from './components/Footer'
 import './components/SectionHeadings.css'
+// Loaded last so it can adjust the hero, "Why now" and The Platform
+import './styles/top-of-page.css'
 
 export default function App() {
   return (
     <>
       <Navbar />
       <HeroCarbon />
+      {/* <ClientLogos />  -- turned on once the logo images are in public/logos */}
       <SituationSection />
       <PlatformSection />
       <StageIdentify />

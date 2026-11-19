@@ -1,22 +1,21 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import lady from '../assets/situation/lady-purple.webp'
-import ladyPlain from '../assets/situation/lady-plain.webp'
 import './SituationSection.css'
 
 /* "People are at the heart of performance" + the rotating "A reality for many HR teams" card.
-   The purple scene (headline, wave, woman) stays still; only the white card rotates its question.
+   The navy scene (headline and copy) stays still; only the white card rotates its question.
    - one question at a time, held long enough to read
    - the next one slides in from the right while the previous slides out to the left, softly blurred
-   - dots, arrows and a "1 / 4" counter; rotation pauses on hover / focus and with reduced motion */
+   - dots, arrows and a "1 / 4" counter; the active dot fills over the 7 seconds a card is shown
+   - rotation pauses on hover / focus, with the Pause button, off screen and with reduced motion */
 
 const QUESTIONS = [
-  { topic: 'Team performance', lead: ['Why is this team'], accent: 'not performing?', support: ['Is it the manager, the team dynamics or', 'the organisation around them?'] },
-  { topic: 'AI & transformation', lead: ['AI won’t fix a team'], accent: 'that doesn’t work.', support: ['Better technology doesn’t automatically', 'mean better teamwork.'] },
+  { topic: 'Team performance', lead: ['One team keeps'], accent: 'missing its targets.', support: ['Is it the manager? The people?', 'The way we’re set up? We’re guessing.'] },
+  { topic: 'Promotions', lead: ['We promoted our best'], accent: 'people to managers.', support: ['We checked their results,', 'not how they lead.'] },
   { topic: 'Training impact', lead: ['We ran a training'], accent: 'programme last year.', support: ['Did it actually change anything?', 'Nobody knows.'] },
-  { topic: 'Survey data', lead: ['We have survey data'], accent: 'from last quarter.', support: ['But it’s sitting in a spreadsheet.', 'Nothing happened.'] },
+  { topic: 'Survey data', lead: ['Our survey shows people'], accent: 'worry about the future.', support: ['The results are in a spreadsheet.', 'Nothing has happened since.'] },
 ]
 
-const HOLD_MS = 4900
+const HOLD_MS = 7000   // each card is shown for 7 seconds
 
 export default function SituationSection({ id = 'situation', variant = 'wave' }) {
   const plain = variant === 'plain'
@@ -28,6 +27,8 @@ export default function SituationSection({ id = 'situation', variant = 'wave' })
   const [dir, setDir] = useState(1)               // 1 = next (slides in from the right), -1 = back
   const [userPaused, setUserPaused] = useState(false)
   const [hovering, setHovering] = useState(false)
+  const [focused, setFocused] = useState(false)   // keyboard focus anywhere inside the card
+  const [navTick, setNavTick] = useState(0)        // bumped on every arrow / dot click: restarts the full interval
   const [reduced, setReduced] = useState(false)
 
   useEffect(() => {
@@ -72,17 +73,30 @@ export default function SituationSection({ id = 'situation', variant = 'wave' })
   const goNext = useCallback(() => goTo((index + 1) % QUESTIONS.length, 1), [goTo, index])
   const goPrev = useCallback(() => goTo((index - 1 + QUESTIONS.length) % QUESTIONS.length, -1), [goTo, index])
 
-  // Automatic rotation: only while visible, not paused, not hovered, not reduced-motion
-  const autoPlaying = visible && !userPaused && !hovering && !reduced
+  // Clicks on an arrow or a dot (and the arrow keys): change card and restart the full 7 seconds
+  const userNav = (fn) => { fn(); setNavTick((t) => t + 1) }
+
+  // Automatic rotation: only while on screen, not paused, not hovered or focused, not reduced-motion.
+  // A pause keeps the time already spent on the card, so the timer stays in step with the dot's fill;
+  // a new card (or a click) starts again from the full interval.
+  const autoPlaying = visible && !userPaused && !hovering && !focused && !reduced
+  const remaining = useRef(HOLD_MS)
+  const cycleKey = useRef(null)
   useEffect(() => {
+    const key = `${index}:${navTick}`
+    if (cycleKey.current !== key) { cycleKey.current = key; remaining.current = HOLD_MS }
     if (!autoPlaying) return undefined
-    const t = setTimeout(goNext, HOLD_MS)
-    return () => clearTimeout(t)
-  }, [autoPlaying, goNext, index])
+    const start = performance.now()
+    const t = setTimeout(goNext, remaining.current)
+    return () => {
+      clearTimeout(t)
+      remaining.current = Math.max(0, remaining.current - (performance.now() - start))
+    }
+  }, [autoPlaying, goNext, index, navTick])
 
   const onKeyDown = (e) => {
-    if (e.key === 'ArrowRight') { e.preventDefault(); goNext() }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev() }
+    if (e.key === 'ArrowRight') { e.preventDefault(); userNav(goNext) }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); userNav(goPrev) }
   }
 
   const slidePos = (i) => {
@@ -94,31 +108,8 @@ export default function SituationSection({ id = 'situation', variant = 'wave' })
   return (
     <section ref={root} className="sx-outer" id={id}>
       <div className={`sx ${plain ? 'sx--plain' : ''} ${visible ? 'is-visible' : ''}`} data-behavency>
-      <img className="sx-lady" src={plain ? ladyPlain : lady} alt="A thoughtful woman resting her chin on her hand, seated at a laptop" />
-
-      <svg className="sx-art" viewBox="0 0 1600 815" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id={`sxWave-${id}`} gradientUnits="userSpaceOnUse" x1="0" y1="640" x2="1000" y2="815">
-            <stop offset="0" stopColor="#aa55cd" />
-            <stop offset=".38" stopColor="#8a3bb0" />
-            <stop offset=".75" stopColor="#7a31a2" />
-            <stop offset="1" stopColor="#6e2b91" />
-          </linearGradient>
-          <linearGradient id={`sxLine-${id}`} gradientUnits="userSpaceOnUse" x1="303" y1="0" x2="594" y2="0">
-            <stop offset="0" stopColor="#c59cf0" stopOpacity=".75" />
-            <stop offset=".5" stopColor="#d6b5f6" />
-            <stop offset="1" stopColor="#c59cf0" stopOpacity=".8" />
-          </linearGradient>
-        </defs>
-        <path
-          className="sx-wave"
-          d="M0 662 C60 642 110 636 162 637 C420 641 520 790 800 802 C1050 812 1250 742 1380 712 C1470 691 1540 677 1600 672 L1600 815 L0 815 Z"
-          fill={`url(#sxWave-${id})`}
-        />
-      </svg>
-
       <div className="sx-copy">
-        <p className="sx-eyebrow">WHY NOW</p>
+        <p className="sx-eyebrow">WHAT’S AT STAKE</p>
         <span className="sx-eyebar" aria-hidden="true" />
         <h2 className="sx-title">The risk you can <em>see</em>{' '}<br /><em>coming.</em></h2>
         <p className="sx-sub">
@@ -134,18 +125,19 @@ export default function SituationSection({ id = 'situation', variant = 'wave' })
       </div>
 
       <div
-        className="sx-card"
+        className={`sx-card ${autoPlaying ? '' : 'is-paused'}`}
+        style={{ '--sx-interval': `${HOLD_MS}ms` }}
         role="group"
         aria-roledescription="carousel"
         aria-label="A reality for many HR teams"
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
-        onFocus={() => setHovering(true)}
-        onBlur={() => setHovering(false)}
+        onFocus={() => setFocused(true)}
+        onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setFocused(false) }}
         onKeyDown={onKeyDown}
       >
         <div className="sx-card-head">
-          <span className="sx-card-label">WARNING SIGN</span>
+          <span className="sx-card-label">SOUND FAMILIAR?</span>
           <span className="sx-card-count" aria-hidden="true">{index + 1} / {QUESTIONS.length}</span>
         </div>
 
@@ -177,16 +169,16 @@ export default function SituationSection({ id = 'situation', variant = 'wave' })
               aria-selected={i === index}
               aria-label={`Question ${i + 1} of ${QUESTIONS.length}`}
               className={`sx-dot ${i === index ? 'is-active' : ''}`}
-              onClick={() => goTo(i, i > index ? 1 : -1)}
+              onClick={() => userNav(() => goTo(i, i > index ? 1 : -1))}
             />
           ))}
         </div>
 
         <div className="sx-buttons">
-          <button type="button" className="sx-btn" aria-label="Previous question" onClick={goPrev}>
+          <button type="button" className="sx-btn" aria-label="Previous question" onClick={() => userNav(goPrev)}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5L8 12l6.5 6.5" /></svg>
           </button>
-          <button type="button" className="sx-btn sx-btn--next" aria-label="Next question" onClick={goNext}>
+          <button type="button" className="sx-btn sx-btn--next" aria-label="Next question" onClick={() => userNav(goNext)}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5L16 12l-6.5 6.5" /></svg>
           </button>
         </div>

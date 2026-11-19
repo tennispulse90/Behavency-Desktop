@@ -15,7 +15,7 @@ import './HeroCarbon.css'
 const NAVY = '#0b1a4d'
 const GREEN = '#17a34a'
 const SUB = '#12214f'
-const SKILL = '#1a4f8a'
+const SKILL = '#16386b'
 const CARD_TEXT = [
   { kind: 'title', text: 'Identify', x: 153.0, y: 300.8, size: 25, color: NAVY, align: 'center' },
   { kind: 'title', text: 'Engage', x: 373.5, y: 298.8, size: 25, color: NAVY, align: 'center' },
@@ -44,7 +44,7 @@ const GROUPS = {
   // Team Effectiveness: label above bar, percentage centred on the bar
   measure: { x: 735, y: 150, rot: -4.5, pitch: 36 },
 }
-const PROFILE = { x: 100.5, y: 141, a: 0.998, b: -0.061, c: -0.18, pitch: 20.5, track: 84, fill: 62, bar: 7.5 }
+const PROFILE = { x: 100.5, y: 141, a: 0.998, b: -0.061, c: -0.18, pitch: 20.5, track: 84, fill: 62, bar: 3.6, barY: 3.4 }
 const PROFILE_ROWS = [
   { label: 'Collaboration', icon: Users, g: 'hb-blue' },
   { label: 'Communication', icon: MessageCircle, g: 'hb-teal' },
@@ -107,9 +107,9 @@ export default function HeroCarbon() {
                   return (
                     <g key={r.label} transform={`translate(0 ${v})`}>
                       <Icon x={-5.5} y={-4.75} width={11} height={11} stroke="#1d3f91" strokeWidth={1.8} />
-                      <text x={10} y={-2.2} fontSize="6.1" fontWeight="700" fill={SKILL} letterSpacing="-0.1">{r.label}</text>
-                      <rect x={10} y={0.6} width={PROFILE.track} height={PROFILE.bar} rx={PROFILE.bar / 2} fill="rgba(198,205,224,0.42)" />
-                      <rect x={10} y={0.6} width={PROFILE.fill} height={PROFILE.bar} rx={PROFILE.bar / 2} fill={`url(#${r.g})`} />
+                      <text x={10} y={-2.2} fontSize="8.6" fontWeight="700" fill={SKILL} letterSpacing="0">{r.label}</text>
+                      <rect x={10} y={PROFILE.barY} width={PROFILE.track} height={PROFILE.bar} rx={PROFILE.bar / 2} fill="rgba(198,205,224,0.42)" />
+                      <rect x={10} y={PROFILE.barY} width={PROFILE.fill} height={PROFILE.bar} rx={PROFILE.bar / 2} fill={`url(#${r.g})`} />
                     </g>
                   )
                 })}
@@ -122,7 +122,7 @@ export default function HeroCarbon() {
                   return (
                     <g key={t} transform={`translate(${GROUPS.build.x} ${GROUPS.build.y + i * GROUPS.build.pitch}) rotate(${GROUPS.build.rot})`}>
                       <text x={0} y={y - 4.6} fontSize="12" fontWeight="700" fill={NAVY} dominantBaseline="central" letterSpacing="-0.2">{t}</text>
-                      <rect x={0} y={y + 5.8} width={91} height={10} rx={5} fill="rgba(200,206,222,0.5)" />
+                      <rect x={0} y={y + 7} width={91} height={4.5} rx={2.25} fill="rgba(200,206,222,0.5)" />
                     </g>
                   )
                 })}
@@ -134,9 +134,9 @@ export default function HeroCarbon() {
                   const y = 0
                   return (
                     <g key={r.label} transform={`translate(${GROUPS.measure.x} ${GROUPS.measure.y + i * GROUPS.measure.pitch}) rotate(${GROUPS.measure.rot})`}>
-                      <text x={0} y={y - 11} fontSize="10.6" fontWeight="700" fill={NAVY} letterSpacing="-0.2">{r.label}</text>
-                      <rect x={0} y={y - 8} width={114} height={16} rx={8} fill="rgba(198,205,224,0.4)" />
-                      <rect x={0} y={y - 8} width={r.w} height={16} rx={8} fill={`url(#${r.g})`} />
+                      <text x={0} y={y - 8} fontSize="12" fontWeight="700" fill={NAVY} letterSpacing="-0.2">{r.label}</text>
+                      <rect x={0} y={y - 3.5} width={114} height={7} rx={3.5} fill="rgba(198,205,224,0.4)" />
+                      <rect x={0} y={y - 3.5} width={r.w} height={7} rx={3.5} fill={`url(#${r.g})`} />
                       <text x={160} y={y} fontSize="15.2" fontWeight="800" fill={r.c} textAnchor="end" dominantBaseline="central" letterSpacing="-0.3">{r.pct}</text>
                     </g>
                   )
