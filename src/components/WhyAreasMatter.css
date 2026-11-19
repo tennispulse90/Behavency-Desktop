@@ -1,0 +1,39 @@
+/* "Why these areas matter" — exact copy of the supplied design, scaled as one piece */
+.wm { position: relative; width: 100%; overflow: hidden; padding: clamp(28px, 3.6vw, 72px) 0; background: #fff; }
+.wm-canvas {
+  position: relative;
+  container-type: inline-size;
+  width: 76%;                       /* a little smaller than the screen, like the other sections */
+  margin: 0 auto;
+  aspect-ratio: 1600 / 860;
+  font-family: Inter, system-ui, sans-serif;
+  color: #14173d;
+}
+.wm-canvas > *, .wm-card > * { position: absolute; margin: 0; }
+.wm-card { position: absolute; inset: 0; }
+
+.wm-eyebrow { display: flex; align-items: center; gap: calc(18 * var(--u)); }
+.wm-eyebrow i { display: block; height: calc(1.6 * var(--u)); background: #3b4066; }
+.wm-eyebrow span { font-weight: 700; letter-spacing: .055em; color: #1a2048; white-space: nowrap; }
+
+.wm-title { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; letter-spacing: -.022em; color: #0b0f2e; white-space: nowrap; font-optical-sizing: auto; }
+.wm-title em { font-style: italic; font-weight: 700; letter-spacing: -.006em; color: #5714ea; }
+.wm-sub { font-weight: 400; letter-spacing: -.004em; color: #2a2f4c; white-space: nowrap; }
+
+.wm-rule { background: #e3e4ee; }
+
+.wm-label { font-weight: 600; letter-spacing: -.012em; color: #4a12d6; white-space: nowrap; }
+.wm-stat { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; letter-spacing: -.02em; color: #0b0f2e; white-space: nowrap; font-optical-sizing: auto; }
+.wm-pre, .wm-post { font-weight: 600; letter-spacing: -.01em; }
+.wm-body { font-weight: 400; letter-spacing: -.004em; color: #232846; white-space: nowrap; }
+.wm-link { white-space: nowrap; }
+.wm-link span { display: inline-block; font-weight: 400; letter-spacing: -.004em; color: #3a3f68; border-bottom: calc(1.2 * var(--u)) solid #a9acc6; padding-bottom: calc(1.5 * var(--u)); }
+.wm-link b { font-weight: 500; font-size: 1.22em; line-height: 0; }
+
+/* soft entrance */
+.wm-eyebrow, .wm-title, .wm-sub, .wm-card, .wm-rule { opacity: 0; transform: translateY(12px); transition: opacity .7s ease, transform .8s cubic-bezier(.22, 1, .36, 1); }
+.wm-title { transition-delay: .06s; } .wm-sub { transition-delay: .12s; } .wm-rule { transition-delay: .2s; }
+.wm-card:nth-of-type(2) { transition-delay: .25s; } .wm-card:nth-of-type(3) { transition-delay: .32s; } .wm-card:nth-of-type(4) { transition-delay: .39s; }
+.wm-card:nth-of-type(5) { transition-delay: .46s; } .wm-card:nth-of-type(6) { transition-delay: .53s; } .wm-card:nth-of-type(7) { transition-delay: .6s; }
+.is-in .wm-eyebrow, .is-in .wm-title, .is-in .wm-sub, .is-in .wm-card, .is-in .wm-rule { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .wm-eyebrow, .wm-title, .wm-sub, .wm-card, .wm-rule { transition: none; opacity: 1; transform: none; } }
