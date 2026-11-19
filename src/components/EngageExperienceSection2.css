@@ -2,7 +2,7 @@
    ENGAGE (version 2) — first screen redesigned to the supplied reference.
    Sizes are proportional to the viewport (the reference is 1600 px wide), so it keeps the same look on any desktop.
    ══════════════════════════════════════════ */
-.behavency-engage--v2 { --be-card-h: max(480px, min(calc(min(1320px, 100vw - 48px) / 2), calc(100vh - 162px)));
+.behavency-engage--v2 { --be-card-h: max(480px, calc(0.9 * min(calc(min(1320px, 100vw - 48px) / 2), calc(100vh - 162px))));  /* 10% lower than before */
   /* the cards stop centred in the space below the navigation bar */
   --v2-pad: calc(72px + (100vh - 72px - var(--be-card-h)) / 2); }
 .behavency-engage--v2 .be-top-layer { padding-top: 72px; padding-bottom: 0; }
