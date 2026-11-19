@@ -7,7 +7,7 @@ import PlatformSection from './components/PlatformSection'
 import StageIdentify from './components/StageIdentify'
 import BehaviouralModel from './components/BehaviouralModel'
 import WhyAreasMatter from './components/WhyAreasMatter'
-import TwoGapsSection from './components/TwoGapsSection'
+import HoldsBackSection from './components/HoldsBackSection'
 import EngageExperienceSection2 from './components/EngageExperienceSection2'
 import BuildSection from './components/BuildSection'
 import DeliverySectionV3 from './components/DeliverySectionV3'
@@ -36,7 +36,7 @@ export default function App() {
       <StageIdentify />
       <BehaviouralModel />
       <WhyAreasMatter />
-      <TwoGapsSection />
+      <HoldsBackSection />
       <EngageExperienceSection2 />
       <BuildSection />
       <DeliverySectionV3 />
