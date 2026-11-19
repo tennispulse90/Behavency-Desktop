@@ -2,72 +2,62 @@ import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import './WhyAreasMatter.css'
 
-/* "Why these areas matter" — exact copy of the supplied design.
-   Laid out on a 1600 × 860 design canvas that scales as one piece: u(n) = n × (canvas width / 1600). */
+/* "Why these areas matter" — six research figures in a 3 × 2 grid, then the AI callout card.
+   Normal page flow (no fixed canvas), so it reads well on phones too. */
 
-const u = (n) => `calc(${n} * var(--u))`
-const box = (x, y, w, h, extra = {}) => ({ left: u(x), top: u(y), ...(w != null ? { width: u(w) } : null), ...(h != null ? { height: u(h) } : null), ...extra })
-const fs = (size, lh, extra = {}) => ({ fontSize: u(size), lineHeight: lh ? u(lh) : 1, ...extra })
-
-const COLS = [136, 620, 1068]
-/* stat: [pre, big, post] — pre and post are the small serif words around the big number */
 const CARDS = [
-  { c: 0, r: 0, label: 'Clarity & Alignment', stat: ['up to ', '7.6%', ''], body: ['higher yearly stock returns at companies', 'where people feel purpose and', 'management gives clear direction.'], src: 'Wharton, Columbia & Harvard Business School' },
-  { c: 1, r: 0, label: 'Trust & Inclusion', stat: ['', '17%', ''], body: ['more likely to say they are high-', 'performing — teams with inclusive', 'leaders, compared with others.'], src: 'Deloitte, in Harvard Business Review' },
-  { c: 2, r: 0, label: 'Focus & Priorities', stat: ['', '25', ' points'], body: ['higher in the performance ranking for', 'people who focus on fewer priorities', 'and say no to the rest.'], src: 'Morten Hansen, UC Berkeley' },
-  { c: 0, r: 1, label: 'Execution & Accountability', stat: ['', '68', ' of 70'], body: ['studies found productivity gains when', 'organisations managed by clear objectives.'], src: 'Journal of Applied Psychology' },
-  { c: 1, r: 1, label: 'Collaboration & Influence', stat: ['', '39%', ''], body: ['higher team productivity, on average,', 'could be reached if teams improved', 'collaboration.'], src: 'i4cp & Rob Cross' },
-  { c: 2, r: 1, label: 'Learning & Adaptation', stat: ['', '25%', ''], body: ['higher profit margins at companies with', 'the most learning-agile executives,', 'compared with peers.'], src: 'Korn Ferry' },
+  { label: 'Clarity & Alignment', stat: '4.9×', body: 'Teams that line their work up with clear, visible goals are 4.9 times more likely to meet deadlines.', src: 'Atlassian, State of Teams 2025' },
+  { label: 'Trust & Inclusion', stat: '3%', post: 'vs 12%', body: 'Where people feel safe to speak up, 3% are likely to quit within a year. Where they feel least safe, 12% are.', src: 'BCG, 2024' },
+  { label: 'Focus & Prioritization', stat: '4.6×', body: 'Teams that have a way to identify their top-priority work are 4.6 times more likely to be productive.', src: 'Atlassian, State of Teams 2024' },
+  { label: 'Execution & Accountability', stat: '3×', body: 'Managers whose leaders hold everyone responsible for great performance are three times as likely to be engaged (51% vs 17%).', src: 'Gallup, 2026' },
+  { label: 'Collaboration & Influence', stat: '39%', body: 'Teams could raise their productivity by 39% on average if they improved how they collaborate.', src: 'i4cp, 2024' },
+  { label: 'Learning & Adaptability', stat: '2×', body: 'Organisations that prioritise developing people’s capabilities are twice as likely to have better financial and business results.', src: 'Deloitte, Global Human Capital Trends 2025' },
 ]
-/* y positions (design px) of the first row and of the second row */
-const ROW = [
-  { label: 267, stat: 301, body: 383, link: 481 },
-  { label: 555, stat: 592, body: 672, link: 773 },
-]
+
+/* Big figure: the "×" is drawn lighter, as in the design */
+function Stat({ value, post }) {
+  const times = value.endsWith('×')
+  return (
+    <p className="wm-stat">
+      {times ? value.slice(0, -1) : value}
+      {times && <span className="wm-times">×</span>}
+      {post && <span className="wm-post">{post}</span>}
+    </p>
+  )
+}
+
+function Source({ children }) {
+  return <p className="wm-src"><span>{children}<b aria-hidden="true">↗</b></span></p>
+}
 
 export default function WhyAreasMatter() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
   return (
     <section className={`wm${inView ? ' is-in' : ''}`} id="why-areas-matter" ref={ref} aria-label="Why these areas matter">
-      <div className="wm-canvas" style={{ '--u': 'calc(100cqw / 1600)' }}>
-        <div className="wm-eyebrow" style={box(136, 24, 600, 22)}>
-          <i style={{ width: u(36) }} />
-          <span style={fs(20, 22)}>WHY THESE AREAS MATTER</span>
+      <div className="wm-wrap">
+        <p className="wm-eyebrow"><i aria-hidden="true" />WHY THESE AREAS MATTER</p>
+        <h2 className="wm-title">When these areas improve, <em>results follow.</em></h2>
+        <p className="wm-sub">Each area in our model is linked to results a business can see: performance, productivity and profit.</p>
+
+        <div className="wm-grid">
+          {CARDS.map((k, i) => (
+            <div className="wm-card" key={k.label} style={{ '--i': i }}>
+              <p className="wm-label">{k.label}</p>
+              <Stat value={k.stat} post={k.post} />
+              <p className="wm-body">{k.body}</p>
+              <Source>{k.src}</Source>
+            </div>
+          ))}
         </div>
 
-        <h2 className="wm-title" style={box(136, 62, null, null, fs(72, 84))}>
-          When these areas improve, <em>results follow.</em>
-        </h2>
-
-        <p className="wm-sub" style={box(136, 148, 1100, null, { fontSize: '0.9458vw', lineHeight: 1.5 })}>
-          Each area in our model is linked to results a business can see: performance,<br />
-          productivity and profit.
-        </p>
-
-        <span className="wm-rule wm-rule--v" style={box(579, 268, 1.4, 552)} />
-        <span className="wm-rule wm-rule--v" style={box(1026, 268, 1.4, 552)} />
-        <span className="wm-rule" style={box(136, 537, 1352, 1.4)} />
-
-        {CARDS.map((k) => {
-          const x = COLS[k.c]
-          const y = ROW[k.r]
-          const body = k.r === 1 && k.c === 0 ? y.body + 3 : y.body
-          return (
-            <div className="wm-card" key={k.label}>
-              <p className="wm-label" style={box(x, y.label, 460, null, { fontSize: 'calc(0.9458vw + 0.5px)', lineHeight: 1.3 })}>{k.label}</p>
-              <p className="wm-stat" style={box(x, y.stat, 470, null, fs(72, 80))}>
-                {k.stat[0] && <span className="wm-pre" style={fs(37, 38)}>{k.stat[0]}</span>}
-                {k.stat[1]}
-                {k.stat[2] && <span className="wm-post" style={fs(k.stat[2] === ' of 70' ? 45 : 38, 42)}>{k.stat[2]}</span>}
-              </p>
-              <p className="wm-body" style={box(x, body, 470, null, { fontSize: 'calc(0.9458vw - 1.5px)', lineHeight: 1.47 })}>
-                {k.body.map((l, i) => <React.Fragment key={l}>{l}{i < k.body.length - 1 && <br />}</React.Fragment>)}
-              </p>
-              <p className="wm-link" style={box(x, y.link, 470, null, { fontSize: 'calc(0.9458vw - 3px)', lineHeight: 1.4 })}><span>{k.src} <b aria-hidden="true">↗</b></span></p>
-            </div>
-          )
-        })}
+        <div className="wm-ai">
+          <p className="wm-ai-label">And AI won’t build them for you</p>
+          <p className="wm-ai-stat">42%</p>
+          <p className="wm-ai-body">of people who received low-effort, AI-generated work from a colleague said they trust that colleague less.</p>
+          <span className="wm-ai-rule" aria-hidden="true" />
+          <Source>BetterUp Labs &amp; Stanford Social Media Lab, Harvard Business Review, 2025</Source>
+        </div>
       </div>
     </section>
   )
