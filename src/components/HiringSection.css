@@ -53,3 +53,8 @@
   .hr-how { font-size: 14px; font-weight: 400; color: #5a6272; margin-top: 16px; }
   .hr-note { font-size: 13px; margin-top: 8px; }
 }
+
+/* laptop and wider: the report a little bigger and a little lower */
+@media (min-width: 901px) {
+  .hr-doc { width: 42cqw; position: relative; top: 3cqw; }
+}
