@@ -467,6 +467,10 @@ export default function EngageExperienceSection2() {
       const w = Math.min(0.87 * window.innerWidth, 1500)
       const s = Math.min(0.88, (cardH * 1.8) / w)
       if (heroRef.current) heroRef.current.style.setProperty('--bx-s', s.toFixed(4))
+      // the cards that scroll over the first screen are just a little wider than its text, so they cover it exactly
+      // (never narrower than 1100px, so nothing inside the cards gets cut off on small laptops)
+      const section = heroRef.current && heroRef.current.closest('.behavency-engage--v2')
+      if (section) section.style.setProperty('--be-card-w', `${Math.round(Math.min(Math.max(w * s + 64, 1100), window.innerWidth - 48, 1320))}px`)
     }
     fit()
     window.addEventListener('resize', fit)

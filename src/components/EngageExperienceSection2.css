@@ -152,3 +152,8 @@
   .bx-title { white-space: normal; font-size: clamp(40px, 11vw, 64px); }
   .bx-underline { font-size: clamp(40px, 11vw, 64px); }
 }
+
+/* the Game / Reflection / Insight cards: just wider than the first screen's text, so they cover it exactly */
+@media (min-width: 901px) {
+  .behavency-engage--v2 .xc-ecard { width: var(--be-card-w, min(calc(100vw - 48px), 1320px)); }
+}
