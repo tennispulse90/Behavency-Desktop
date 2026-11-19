@@ -231,3 +231,15 @@
   .sx--plain { background: #9f4aca; }
   .sx--plain .sx-lady { left: auto; top: auto; width: min(58vw, 300px); height: auto; margin: -36px -8px 0 auto; }
 }
+
+/* Research line on each card: the figure, what it measures and a link to the source. The card is taller to fit it. */
+.sx-stat { margin: 1.6cqw 0 0; padding-top: 1.3cqw; border-top: 1px solid #ebecf1; font: 500 1.15cqw/1.4 Inter, Arial, sans-serif; color: #1b1f3a; }
+.sx-stat b, .sx-txt { display: block; }
+.sx-stat b { margin-bottom: .45cqw; font: 700 2.3cqw/1 "Source Serif 4", Georgia, serif; color: #128a7e; letter-spacing: -.015em; }
+.sx-stat em { font-style: normal; font-weight: 400; color: #8a8fa3; }
+.sx-src { display: inline-block; margin-top: .5cqw; font: 400 1cqw/1.3 Inter, Arial, sans-serif; color: #8a8fa3; text-decoration: none; border-bottom: 1px solid #d7d9e2; pointer-events: auto; }
+.sx-src:hover { color: #128a7e; border-color: #128a7e; }
+@media (min-width: 861px) { .sx-card { height: 36.6cqw; top: 5.9cqw; } .sx-stage { height: 23.6cqw; } .sx-dots { top: 31.6cqw; } .sx-buttons { top: 30.2cqw; } }
+@media (max-width: 860px) { .sx-stat { margin-top: 14px; padding-top: 12px; font-size: 13.5px; } .sx-stat b { font-size: 24px; margin-bottom: 4px; } .sx-src { margin-top: 6px; font-size: 12px; } }
+/* the smallest phones: a little more room so the longer cards aren't cut off */
+@media (max-width: 360px) { .sx-card { height: 490px; } .sx-stage { height: 315px; } }

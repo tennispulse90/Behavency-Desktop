@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './SituationSection.css'
 
-/* "People are at the heart of performance" + the rotating "A reality for many HR teams" card.
+/* "What's at stake" + the rotating "Sound familiar?" card (each card ends with a research figure and its source).
    The navy scene (headline and copy) stays still; only the white card rotates its question.
    - one question at a time, held long enough to read
    - the next one slides in from the right while the previous slides out to the left, softly blurred
@@ -9,10 +9,14 @@ import './SituationSection.css'
    - rotation pauses on hover / focus, with the Pause button, off screen and with reduced motion */
 
 const QUESTIONS = [
-  { topic: 'Team performance', lead: ['One team keeps'], accent: 'missing its targets.', support: ['Is it the manager? The people?', 'The way we’re set up? We’re guessing.'] },
-  { topic: 'Promotions', lead: ['We promoted our best'], accent: 'people to managers.', support: ['We checked their results,', 'not how they lead.'] },
-  { topic: 'Training impact', lead: ['We ran a training'], accent: 'programme last year.', support: ['Did it actually change anything?', 'Nobody knows.'] },
-  { topic: 'Survey data', lead: ['Our survey shows people'], accent: 'worry about the future.', support: ['The results are in a spreadsheet.', 'Nothing has happened since.'] },
+  { topic: 'Manager burnout', lead: ['Our managers are'], accent: 'overloaded.', support: ['More on their plate than ever,', 'and their motivation is dropping.'],
+    stat: '27% → 22%', statText: 'managers who feel engaged at work, in one year', src: 'Gallup, 2026', href: 'https://www.gallup.com/file/workplace/712607/SOGW_Global-Press-Release-2026-04.pdf' },
+  { topic: 'Change fatigue', lead: ['One more restructure,'], accent: 'one more new system.', support: ['Managers are expected to lead it.', 'Most were never prepared for it.'],
+    stat: '74%', statText: 'of HR leaders say managers aren’t ready to lead change', src: 'Gartner, 2024', href: 'https://www.gartner.com/en/newsroom/press-releases/2024-10-15-gartner-survey-finds-leader-and-manager-development-tops-hrleaders-list' },
+  { topic: 'Stretched too thin', lead: ['Our managers lead'], accent: 'bigger teams.', support: ['And they still have their own work,', 'so each person gets less of their time.'],
+    stat: '10.9 → 12.1', statText: 'average team size per manager, in one year', src: 'Gallup, 2025', href: 'https://www.gallup.com/workplace/700718/managers-teams-getting-bigger.aspx' },
+  { topic: 'Unprepared managers', lead: ['We promoted our best'], accent: 'people to managers.', support: ['We checked their results,', 'not how they lead.'],
+    stat: '82%', statText: 'of new managers had no management training', src: 'CMI, 2023', href: 'https://fortune.com/2023/10/16/bosses-accidental-formal-training-workers-quit-cmi/' },
 ]
 
 const HOLD_MS = 7000   // each card is shown for 7 seconds
@@ -156,6 +160,11 @@ export default function SituationSection({ id = 'situation', variant = 'wave' })
                 <span className="sx-accent">{q.accent}</span>
               </p>
               <p className="sx-support">{q.support.map((line) => <span key={line}>{line}</span>)}</p>
+              <p className="sx-stat">
+                <b>{q.stat}</b>
+                <span className="sx-txt">{q.statText}</span>
+                <a className="sx-src" href={q.href} target="_blank" rel="noopener" tabIndex={i === index ? undefined : -1}>{q.src} ↗</a>
+              </p>
             </div>
           ))}
         </div>
