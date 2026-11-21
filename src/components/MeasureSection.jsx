@@ -62,9 +62,7 @@ export default function MeasureSection() {
         </div>
 
         {/* text */}
-        <div className="ms-pill" style={box(906, 69, null, null)}>
-          <StagePill num="04" title="Measure" sub="Prove the impact" tone="purple" />
-        </div>
+        {/* the "04 Measure" pill is gone: the stage transition just above now introduces the stage */}
         <h2 className="ms-title" style={box(906, 152, null, null, fs(61.3, 60))}>
           Then we run the<br />assessment again.<br /><em>And show you what<br />changed.</em>
         </h2>

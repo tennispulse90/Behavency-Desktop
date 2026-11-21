@@ -23,5 +23,23 @@
       addEventListener('resize', () => { if ((innerWidth < 600 ? 'mob' : 'desk') !== window.BHV_SITE) location.reload(); });
     </script>
     <script src="/programmes.js"></script>
+    <!-- Stage transitions: a short "chapter" screen before each of the four stages (#identify, #engage, #build, #measure).
+         Texts and colours are in public/stage-transitions.js. Started once the page content has rendered. -->
+    <!-- The transitions overlap the top of the next section by 110px. These two exceptions stop them covering content:
+         on phones none of them overlap, and the Measure one never does (its section starts straight with content). -->
+    <style>
+      @media (max-width: 760px) { .bhv-ch { margin-bottom: 0 !important; } }
+      .bhv-ch[aria-label^="Stage 4 of 4"] { margin-bottom: 0 !important; }
+    </style>
+    <script src="/stage-transitions.js"></script>
+    <script>
+      (function () {
+        let tries = 0;
+        const t = setInterval(() => {
+          if (document.querySelector('#identify') && document.querySelector('#measure')) { clearInterval(t); BehavencyStages.init(); }
+          else if (++tries > 100) clearInterval(t);
+        }, 100);
+      })();
+    </script>
   </body>
 </html>

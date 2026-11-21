@@ -308,7 +308,7 @@ export default function BuildSection() {
   ];
 
   return (
-    <section className="bs-section" ref={sectionRef}>
+    <section className="bs-section" id="build" ref={sectionRef}>
       <div className="bs-container">
 
         <div className="bs-split">
