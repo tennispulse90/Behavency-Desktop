@@ -1,4 +1,3 @@
-import StagePill from './StagePill'
 import React, { useState, useRef, useEffect } from 'react'
 import './EngageExperienceSection.css'
 import './EngageExperienceSection2.css'
@@ -523,7 +522,6 @@ export default function EngageExperienceSection2() {
       <div className="bx-hero" ref={heroRef}>
         <div className="bx-grid">
           <div className="bx-left">
-            <StagePill num="02" title="Engage" sub="Build shared commitment" tone="green" />
             <h1 className="bx-title">
               They’ve seen<br />the score.<br />Now let them<br />
               <span className="bx-em">experience it.</span>

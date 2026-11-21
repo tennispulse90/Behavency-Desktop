@@ -1,4 +1,3 @@
-import StagePill from './StagePill'
 import React, { useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
@@ -109,12 +108,6 @@ export default function StageIdentify() {
     <>
       <section className="identify chapter chapter--white" id="identify" ref={ref}>
         <div className="container">
-
-          {/* Chapter label */}
-          <motion.div className="identify__chapter-label"
-            initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 0.5 }}>
-            <StagePill num="01" title="Identify" sub="Reveal strengths and gaps" tone="blue" />
-          </motion.div>
 
           {/* Two-column split */}
           <div className="identify__split">

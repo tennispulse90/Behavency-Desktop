@@ -1,4 +1,3 @@
-import StagePill from './StagePill'
 import React, { useState } from 'react';
 import './BuildSection.css';
 
@@ -329,7 +328,6 @@ export default function BuildSection() {
 
           {/* Header (right) */}
           <div className="bs-header">
-            <StagePill num="03" title="Build" sub="Build the right capabilities" tone="orange" />
             <h2 className="bs-heading">Turn insights into<br /><em>targeted development</em></h2>
             <p className="bs-subheading">We turn assessment results into relevant modules and a practical plan for putting them into practice.</p>
           </div>
