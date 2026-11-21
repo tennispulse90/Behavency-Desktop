@@ -87,7 +87,7 @@
   .bq-chips span { font: 500 13.5px/1.2 Inter, sans-serif; color: #2b3350; background: #fff; border: 1px solid #e4e0d6; border-radius: 999px; padding: 8px 12px; }
   .bq-chips span.more { background: #fdf0e3; border-color: #f3d3b3; color: #9a4a08; font-weight: 600; }
   /* main-page block, desktop: copied from catalogue.png */
-  .bq-c .bq-in { max-width: 1360px; }
+  .bq-c .bq-in { max-width: 1240px; }
   .bq-c { background: radial-gradient(760px 420px at 100% 0, rgba(214,198,252,.45), rgba(214,198,252,0) 60%), #fbf8f6 !important; border: 0 !important; padding: 96px 0 100px !important; }
   .bq-c .bq-eye { color: #e8701a; }
   .bq-c .bq-h { font-family: "Playfair Display", "Source Serif 4", Georgia, serif !important; font-weight: 600 !important; font-size: 48px !important; }
